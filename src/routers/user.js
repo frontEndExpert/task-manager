@@ -41,7 +41,7 @@ router.get('/users/:id', async (req, res) => {
     }
 });
 
- // delete transaction and update the total_price for customer
+ // delete user by id
  router.delete('/users/del/:id', async (req, res) => {
     const customer_id = req.params.id
     try {
@@ -60,6 +60,39 @@ router.get('/users/:id', async (req, res) => {
     }
 }); 
 
+
+ // update transaction {_id: userObj._id}
+ router.patch('/user/update/', async (req, res) => {  
+    try {
+        console.log("req.body", req.body);
+        const userObj = req.body;
+        console.log("userObj._id", userObj._id);
+        const newUser = await User.findOneAndUpdate( { customer_id : userObj.customer_id} , {
+            "first_name" : userObj.first_name,
+            "last_name" : userObj.last_name,
+            "email" : userObj.email,
+            "gender" : userObj.gender,
+            "street" : userObj.street,
+            "city" : userObj.city,
+            "country" : userObj.country,
+            "cerdit_card_type" : userObj.cerdit_card_type,
+            "cerdit_card_number" : userObj.cerdit_card_number,
+            "total_price" : userObj.total_price,
+            "currency" : userObj.currency
+            
+            } );
+            if(newUser){
+                console.log("update success", newUser)
+                newUser.save()
+                res.status(200).send(newUser)
+            } else {
+                res.status(400).send()
+            }
+
+    } catch (error) {
+        res.status(500).send(error)
+    }
+});
 
 
 module.exports = router;
