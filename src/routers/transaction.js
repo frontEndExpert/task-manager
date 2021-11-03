@@ -83,7 +83,7 @@ router.get('/transactions/user/:id', async (req, res) => {
     }); 
     
     // update transaction
-    router.put('/transactions/update/', async (req, res) => {  
+    router.patch('/transactions/update/', async (req, res) => {  
         try {
             console.log("req.body", req.body);
             const transObj = req.body;

@@ -1,7 +1,7 @@
 const express = require('express')
 const User = require('../models/user')
 const router = new express.Router()
-
+//const geocode = require('./utils/geocode')
 
 // post a new user
 router.post('/users', async (req, res) => {
@@ -42,7 +42,7 @@ router.get('/users/:id', async (req, res) => {
 });
 
  // delete user by id
- router.delete('/users/del/:id', async (req, res) => {
+ router.delete('/user/del/:id', async (req, res) => {
     const customer_id = req.params.id
     try {
         let foundUser = await User.findOneAndDelete({ customer_id: customer_id })
@@ -51,7 +51,7 @@ router.get('/users/:id', async (req, res) => {
                 res.status(400).send("internal error: cannot find the customer");
             }else{
                 console.log('Delete successful',foundUser)
-                res.status(200).send( 'Delete successful');
+                res.status(200).send(foundUser);
             }
             
     } catch (error){
@@ -61,7 +61,7 @@ router.get('/users/:id', async (req, res) => {
 }); 
 
 
- // update transaction {_id: userObj._id}
+ // update user {_id: userObj._id}
  router.patch('/user/update/', async (req, res) => {  
     try {
         console.log("req.body", req.body);
@@ -93,6 +93,7 @@ router.get('/users/:id', async (req, res) => {
         res.status(500).send(error)
     }
 });
+
 
 
 module.exports = router;
